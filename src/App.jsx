@@ -10,10 +10,14 @@ import ProductDetails from "./components/productDetails/ProductDetails";
 import AccountDropDown from "./components/accountDropdown/AccountDropDown";
 import Cart from "./components/Cart/Cart";
 import Contact from "./components/pages/contact/Contact";
+import { Provider } from "react-redux";
+import store from "./features/cart/store";
+import FlashSales from "./components/pages/home/sections/FlashSales";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Provider store={store}>
+       <BrowserRouter>
       <Routes>
         <Route exact path="/" Component={Home} />
         <Route exact path="*" Component={About} />
@@ -24,9 +28,12 @@ function App() {
         <Route exact path="/wishlist" Component={Wishlist} />
         <Route exact path="/productDetails" Component={ProductDetails} />
         <Route exact path="/AccountDropDown" Component={AccountDropDown} />
-        <Route exact path="/Cart" Component={Cart} />
+          <Route exact path="/Cart" Component={Cart} />
+          <Route path="/flash-sales" component={FlashSales} />
+          
       </Routes>
     </BrowserRouter>
+   </Provider>
   );
 }
 

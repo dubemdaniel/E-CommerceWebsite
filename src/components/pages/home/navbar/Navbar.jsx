@@ -28,7 +28,7 @@ export const Navbar = () => {
               }
               key={index}
             >
-              <NavLink to={links.href}>{links.name}</NavLink>
+              <NavLink to={links.href}>{links.name === "Cart" ? <button>Cart</button>: links.name}</NavLink>
             </li>
           ))}
         </ul>

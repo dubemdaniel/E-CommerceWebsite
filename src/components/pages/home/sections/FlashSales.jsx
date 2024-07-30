@@ -1,8 +1,12 @@
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useDispatch } from "react-redux";
+import {addItem} from "../../../../features/cart/CartSlice";
+
 const items = [
   {
+    id: "1",
     images: "/images/homepage/Frame 611.png",
     percent: "-40%",
     header: "HAVIT HV-G92 Gamepad",
@@ -12,6 +16,8 @@ const items = [
     remaining: "(88)",
   },
   {
+    id: "2",
+
     images: "/images/homepage/Frame 612.png",
     percent: "-35%",
     header: "AK-900 Wired Keyboard",
@@ -19,9 +25,11 @@ const items = [
     price: "$1160",
     rating: "/images/homepage/Four Star.png",
     remaining: "(75)",
-    cart: "cart",
+    // cart: "cart",
   },
   {
+    id: "3",
+
     images: "/images/homepage/Frame 613.png",
     percent: "-30%",
     header: "IPS LCD Gaming Monitor",
@@ -29,9 +37,11 @@ const items = [
     price: "$400",
     rating: "/images/homepage/Five star.png",
     remaining: "(99)",
-    padding: "padding",
+    // padding: "padding",
   },
   {
+    id: "4",
+
     images: "/images/homepage/Frame 614.png",
     percent: "-25%",
     header: "S-Series Comfort Chair",
@@ -41,6 +51,8 @@ const items = [
     remaining: "(99)",
   },
   {
+    id: "5",
+
     images: "/images/homepage/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
     percent: "-25%",
     header: "S-Series Comfort Chair",
@@ -53,6 +65,14 @@ const items = [
 ];
 
 const FlashSales = () => {
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (item) => {
+    console.log("Adding item to cart" , item)
+
+    dispatch(addItem({...item, quantity: 1}));
+  };
+
   return (
     <div className="py-20">
       <div className="flex  gap-3 items-center">
@@ -99,7 +119,7 @@ const FlashSales = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {items.map((item, index) => (
             <div key={index}>
-              <div className="relative ">
+              <div className="relative group">
                 <div className="bg-searchBg rounded-sm ">
                   <img
                     src={item.images}
@@ -129,12 +149,13 @@ const FlashSales = () => {
                     />
                   </div>
                 </div>
-                {item.cart ? (
-                  <button className="bg-footerCol text-secondaryWhite text-center rounded-sm w-full p-3 absolute bottom-0">
+                {item && (
+                  <button
+                    className="bg-[#58575779] text-secondaryWhite text-center rounded-sm w-full p-3 absolute bottom-0 hidden group-hover:block"
+                    onClick={() => addToCartHandler(item)}
+                  >
                     Add to Cart
                   </button>
-                ) : (
-                  ""
                 )}
               </div>
               <div className="flex flex-col gap-2 mt-2">

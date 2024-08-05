@@ -1,6 +1,10 @@
 import {} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../../../features/cart/CartSlice";
+
+
 
 const items = [
   {
@@ -42,35 +46,43 @@ const items = [
   },
 ];
 
+// const dispatch = useDispatch();
+
+//   const addToCartHandler = (item) => {
+//     console.log("Adding item to cart", item);
+
+//     dispatch(addItem({ ...item, quantity: 1 }));
+//   };
+
 const BestSellingProduct = () => {
   return (
     <div className="py-14">
-      <div className="flex  gap-3 items-center">
-        <div className="h-16 bg-primary w-8 rounded-md "></div>
-        <p className="text-primary font-semibold">This Month</p>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-16 rounded-md bg-primary "></div>
+        <p className="font-semibold text-primary">This Month</p>
       </div>
-      <div className="sm:flex py-10 justify-between items-center ">
-        <div className="sm:flex items-center gap-20">
+      <div className="items-center justify-between py-10 sm:flex ">
+        <div className="items-center gap-20 sm:flex">
           <div>
             <h1 className="font-semibold sm:text-3xl">Best Selling Products</h1>
             <h1></h1>
           </div>
         </div>
         <div className="">
-          <button className="bg-primary px-8 py-3 rounded-sm text-secondaryWhite text-center text-xs">
+          <button className="px-8 py-3 text-xs text-center rounded-sm bg-primary text-secondaryWhite">
             View All
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {items.map((item, index) => (
           <div key={index}>
-            <div className="relative ">
-              <div className="bg-searchBg rounded-sm flex w-full md:w-full h-60">
+            <div className="relative group">
+              <div className="flex w-full rounded-sm bg-searchBg md:w-full h-60">
                 <img src={item.images} alt="" className="block m-auto " />
               </div>
-              <div className="absolute top-0  bottom-0 w-full px-3 py-2">
-                <div className="flex  items-center justify-end">
+              <div className="absolute top-0 bottom-0 w-full px-3 py-2">
+                <div className="flex items-center justify-end">
                   <div className="px-2 py-1 rounded-full bg-secondaryWhite">
                     <FontAwesomeIcon icon={faHeart} />
                   </div>
@@ -78,16 +90,25 @@ const BestSellingProduct = () => {
                 <div className="">
                   <FontAwesomeIcon
                     icon={faEye}
-                    className="flex ml-auto mt-4 px-2 py-1 rounded-full bg-secondaryWhite"
+                    className="flex px-2 py-1 mt-4 ml-auto rounded-full bg-secondaryWhite"
                   />
                 </div>
               </div>
+             
+              {item && (
+                  <button
+                    className="bg-[#58575779] text-secondaryWhite text-center rounded-sm w-full p-3 absolute bottom-0 hidden group-hover:block"
+                    // onClick={() => addToCartHandler(item)}
+                  >
+                    Add to Cart
+                  </button>
+                )}
             </div>
             <div className="flex flex-col gap-2 mt-2">
               <p className="font-semibold">{item.text}</p>
               <div className="flex gap-2">
                 <p className="text-primary">{item.amount}</p>
-                <p className="text-footer  line-through">{item.price}</p>
+                <p className="line-through text-footer">{item.price}</p>
               </div>
               <div className="flex items-center">
                 <img src={item.rating} alt="" />

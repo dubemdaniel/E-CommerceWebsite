@@ -4,6 +4,7 @@ import Header from "../header/Header";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "../../features/cart/CartSlice";
+import { useNavigate } from "react-router-dom";
 
 // const tableItems = [
 //   {
@@ -24,12 +25,14 @@ import { removeItem, updateQuantity } from "../../features/cart/CartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate
   const cartItems = useSelector((state) => state.cart.items);
   console.log("Cart items:", cartItems);
+  
 
-  const handleQuantityChange = (id, quantity) => {
-    const newQuantity = parseInt(quantity, 10);
-    if (!isNaN(newQuantity) && newQuantity > 0) {
+    const handleQuantityChange = (id, quantity) => {
+    const newQuantity = Number(quantity);
+    if (newQuantity > 0) {
       dispatch(updateQuantity({ id, quantity: newQuantity }));
     }
   };
@@ -41,7 +44,11 @@ const Cart = () => {
     const subtotal = cartItems.reduce((total, item) => {
     const itemPrice = parseFloat(item.amount.replace('$', ''));
     return total + itemPrice * item.quantity;
-  }, 0);
+    }, 0);
+  
+  const gotoHome = () => {
+    navigate('/')
+  }
 
 
   return (
@@ -49,14 +56,14 @@ const Cart = () => {
       <Header />
       <div className="w-full p-4 m-auto  md:w-[100%] lg:w-[80%] ">
         <div className="py-20">
-          <p>Home / Cart</p>
+          <p><a href="/" >Home</a> / Cart</p>
         </div>
         {cartItems.length > 0 ? (
           <div>
             <div>
               <table className="min-w-full bg-white overflow-x-scroll ">
                 <thead className="bg-white py-6 shadow-md rounded-md">
-                  <tr className="flex bg-white py-6 px-10 w-full justify-between">
+                  <tr className="flex bg-white py-6 px-4 sm:px-10 w-full justify-between">
                     <th className="">Product</th>
                     <th className="">Price</th>
                     <th className="">Quantity</th>
@@ -68,11 +75,13 @@ const Cart = () => {
                     <>
                       <tr
                         key={item.id}
-                        className="flex items-center bg-white mt-10 py-6 px-10 w-full justify-between shadow-md"
+                        className="flex items-center bg-white mt-10 py-6 px-4 sm:px-10 w-full justify-between shadow-md"
                       >
                         <td className=" flex items-center ">
                           <div className="relative">
-                            <img src={item.images} alt="" className="w-12" />
+                            <div className="w-12">
+                            <img src={item.images} alt="" className="w-full" />
+                            </div>
 
                             <div className="absolute top-0 rounded-full">
                               <button onClick={() => handleRemoveItem(item.id)}>
@@ -87,13 +96,13 @@ const Cart = () => {
                           <p className="text-xs">{item.title}</p>
                         </td>
 
-                        <td className=" pr-[4rem]">{item.price}</td>
-                        <td className=" pr-[4rem]">
+                        <td className=" ">{item.price}</td>
+                        <td className=" ">
                           <input
                             type="number"
                             name=""
                             id=""
-                            className="w-24 rounded-md"
+                            className="w-16 sm:w-24 rounded-md"
                             min="1"
                             // max="10"
                             value={`0${item.quantity}`}
@@ -111,11 +120,11 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            <div className="flex items-center justify-between py-10">
-              <button className="px-14 py-4 border rounded-md ">
+            <div className="flex items-center justify-between py-10 gap-1">
+              <button className="px-8 sm:px-14 py-4 border rounded-md ">
                 Return To Shop
               </button>
-              <button className="px-14 py-4 border rounded-md ">
+              <button className="px-8 sm:px-14 py-4 border rounded-md ">
                 Update Cart
               </button>
             </div>

@@ -1,27 +1,56 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/Firebase";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+// import { useHistory } from 'react-router-dom';//
+import { loginSuccess } from "../../../features/cart/AuthSlice";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+const validate = (values) => {
+  const errors = {};
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+    errors.email = "Not A valid email address or phone number";
+  } else if (!values.password) {
+    errors.password = "Please enter a password between 8-20 characters";
+  }
+  return errors;
+};
 const LoginValidate = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const history = useHistory();
+
+
   const login = () => {
-    navigate("/login");
+    navigate("/");
+    dispatch(loginSuccess())
+    // history.push('/')
   };
+  const onSubmit = async (values) => {
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast.success("User logged in successfully!!", {
+        position: "top-center",
+      });
+      // account();
+      login()
+    } catch (error) {
+      toast.error(String(error), { position: "bottom-right" });
+    }
+  };
+
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: () => {},
-    validate: (values) => {
-      const errors = {};
-      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-        errors.email = "Not A valid email address or phone number";
-      } else if (!values.password) {
-        errors.password = "Please enter a password between 8-20 characters";
-      }
-      return errors;
-    },
+    initialValues,
+    onSubmit,
+    validate,
   });
+
+
   return (
     <div className="py-20">
       <div className="flex flex-col gap-y-6 md:px-6 lg:p-0 lg:flex-row sm:gap-x-28">
@@ -35,7 +64,7 @@ const LoginValidate = () => {
           <p>Enter your details below</p>
           <form
             action="authentication"
-            className="flex flex-col gap-y-10 w-full"
+            className="flex flex-col w-full gap-y-10"
             onSubmit={formik.handleSubmit}
           >
             <input
@@ -73,7 +102,7 @@ const LoginValidate = () => {
               <div>{formik.errors.password}</div>
             ) : null}
             <div className="flex items-center justify-between gap-y-5">
-              <button className="bg-primary py-4 px-12 text-secondaryWhite text-xs rounded-sm">
+              <button className="px-12 py-4 text-xs rounded-sm bg-primary text-secondaryWhite" type='submit'>
                 Log In
               </button>
               <p>

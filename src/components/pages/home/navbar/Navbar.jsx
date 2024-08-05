@@ -4,13 +4,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutSuccess } from "../../../../features/cart/AuthSlice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const openMobile = () => {
     setOpen(!open);
   };
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+  };
+
+  const viewCart = () => {
+    navigate('/cart')
+  }
+
   const location = useLocation();
 
   return (
@@ -28,7 +43,10 @@ export const Navbar = () => {
               }
               key={index}
             >
-              <NavLink to={links.href}>{links.name === "Cart" ? <button>Cart</button>: links.name}</NavLink>
+              <NavLink to={links.href}>
+                {links.name === "Cart" ? <button className="sm:hidden">Cart</button> : links.name}
+                {/* {links.name === "Sign Up" ?  (isAuthenticated && links.authRequired !== false) : ''} */}
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -45,7 +63,10 @@ export const Navbar = () => {
             />
           </div>
           <FontAwesomeIcon icon={faHeart} />
+          <button onClick={viewCart}>
           <FontAwesomeIcon icon={faCartShopping} />
+
+          </button>
         </div>
         <button onClick={openMobile} className=" md:text-2xl lg:hidden">
           <FontAwesomeIcon icon={faBars} />
@@ -68,7 +89,9 @@ export const Navbar = () => {
             }
             key={index}
           >
-            <NavLink to={links.href}>{links.name}</NavLink>
+            <NavLink to={links.href}>
+                {links.name === "Cart" ? <button>Cart</button> : links.name}
+              </NavLink>
           </li>
         ))}
       </ul>

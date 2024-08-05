@@ -13,27 +13,30 @@ import Contact from "./components/pages/contact/Contact";
 import { Provider } from "react-redux";
 import store from "./features/cart/store";
 import FlashSales from "./components/pages/home/sections/FlashSales";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   return (
     <Provider store={store}>
-       <BrowserRouter>
-      <Routes>
-        <Route exact path="/" Component={Home} />
-        <Route exact path="*" Component={About} />
-        <Route exact path="/contact" Component={Contact} />
-        <Route exact path="/Signup" Component={Signup} />
-        <Route exact path="/login" Component={Login} />
-        <Route exact path="*" Component={Error} />
-        <Route exact path="/wishlist" Component={Wishlist} />
-        <Route exact path="/productDetails" Component={ProductDetails} />
-        <Route exact path="/AccountDropDown" Component={AccountDropDown} />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" Component={Home} />
+          <Route exact path="*" Component={About} />
+          <Route exact path="/contact" Component={Contact} />
+          <Route exact path="/Signup" Component={Signup} />
+          <Route exact path="/login" Component={Login} />
+          <Route exact path="*" Component={Error} />
+          <Route exact path="/wishlist" Component={Wishlist} />
+          <Route exact path="/productDetails" Component={ProductDetails} />
+          <Route exact path="/AccountDropDown" Component={AccountDropDown} />
           <Route exact path="/Cart" Component={Cart} />
           <Route path="/flash-sales" component={FlashSales} />
-          
-      </Routes>
-    </BrowserRouter>
-   </Provider>
+        </Routes>
+        <ToastContainer />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

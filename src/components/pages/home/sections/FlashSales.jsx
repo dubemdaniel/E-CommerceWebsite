@@ -2,7 +2,7 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useDispatch } from "react-redux";
-import {addItem} from "../../../../features/cart/CartSlice";
+import { addItem } from "../../../../features/cart/CartSlice";
 
 const items = [
   {
@@ -53,14 +53,15 @@ const items = [
   {
     id: "5",
 
-    images: "/images/homepage/sam-moghadam-khamseh-kvmdsTrGOBM-unsplash 1.png",
+    images: "/images/homepage/ideapad-gaming-3i-01-500x500 1.png",
+    header: "ASUS FHD Gaming Laptop",
     percent: "-25%",
-    header: "S-Series Comfort Chair",
-    amount: "$375",
+
+    amount: "$700",
     price: "$400",
-    rating: "/images/homepage/Four Half Star.png",
-    remaining: "(99)",
-    half: "half",
+    rating: "/images/homepage/Five star.png",
+    remaining: "(325)",
+    // padding: "padding",
   },
 ];
 
@@ -68,9 +69,9 @@ const FlashSales = () => {
   const dispatch = useDispatch();
 
   const addToCartHandler = (item) => {
-    console.log("Adding item to cart" , item)
+    console.log("Adding item to cart", item);
 
-    dispatch(addItem({...item, quantity: 1}));
+    dispatch(addItem({ ...item, quantity: 1 }));
   };
 
   return (
